@@ -30,37 +30,31 @@ class MinHeap:
             child_index = child_index // 2
         self._heap_list[child_index] = data
 
-    # def _percolate_down(self, hole):
-    #     saved_off_value = self._heap_list[hole]
-    #     while hole * 2 < self._size and self._heap_list[hole] > min(self._heap_list[2*hole], self._heap_list[2*hole +1]):
-    #         # self._heap_list[hole] = #gotta figure out what i'm doing here,
-    #         # # there's plenty of edge cases
-    #         # hole = 2 * hole
-    #         pass
-    #
-    #     self._heap_list[hole] == saved_off_value
-    #
-    # def find_min(self, hole):
-    #
-    #
-    #     return min(self._heap_list[2*hole], self._heap_list[2*hole + 1])
-    def _percolate_down(self, i):
-        while (i * 2) <= self._size:
-            mc = self.minChild(i)
-            if self._heap_list[i] > self._heap_list[mc]:
-                tmp = self._heap_list[i]
-                self._heap_list[i] = self._heap_list[mc]
-                self._heap_list[mc] = tmp
-            i = mc
+    def _percolate_down(self, hole):
+        saved_off_value = self._heap_list[hole]
 
-    def minChild(self, i):
-        if i * 2 + 1 > self._size:
-            return i * 2
+        while hole * 2 < self._size:
+            minimum_child = self._find_minimum_child(hole)
+            if self._heap_list[hole] > self._heap_list[minimum_child]:
+                saved_off_value = self._heap_list[hole]
+                self._heap_list[hole] = self._heap_list[minimum_child]
+                self._heap_list[minimum_child] = saved_off_value
+            hole = minimum_child
+
+        self._heap_list[hole] == saved_off_value
+
+    def _find_minimum_child(self, hole):
+        left_child_index  = hole*2
+        right_child_index = hole*2 + 1
+
+        if right_child_index > self._size:
+            return left_child_index
+
+        elif self._heap_list[left_child_index] < self._heap_list[right_child_index]:
+            return left_child_index
         else:
-            if self._heap_list[i * 2] < self._heap_list[i * 2 + 1]:
-                return i * 2
-            else:
-                return i * 2 + 1
+            return right_child_index
+
 
     def remove(self):
         if self._size == 0:
@@ -82,7 +76,8 @@ def testing_code():
 
     ARRAY_SIZE = 10000
 
-    unsorted_list = [random.randint(-10000, 10000) for _ in range(ARRAY_SIZE)]
+    unsorted_list = [random.randint(-10000, 10000) for _ in range(
+        ARRAY_SIZE)]
     unsorted_list2 = copy.deepcopy(unsorted_list)
 
     print("MinHeap initialization and sorting ...")
