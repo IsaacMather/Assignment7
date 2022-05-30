@@ -30,10 +30,10 @@ class MinHeap:
             child_index = child_index // 2
         self._heap_list[child_index] = data
 
-    def _percolate_down(self, hole):
-        saved_off_value = self._heap_list[hole]
 
-        while hole * 2 < self._size:
+
+    def _percolate_down(self, hole):
+        while hole * 2 <= self._size:
             minimum_child = self._find_minimum_child(hole)
             if self._heap_list[hole] > self._heap_list[minimum_child]:
                 saved_off_value = self._heap_list[hole]
@@ -41,7 +41,6 @@ class MinHeap:
                 self._heap_list[minimum_child] = saved_off_value
             hole = minimum_child
 
-        self._heap_list[hole] == saved_off_value
 
     def _find_minimum_child(self, hole):
         left_child_index  = hole*2
