@@ -21,6 +21,7 @@ class MinHeap:
     def size(self):
         return self._size
 
+
     def insert(self, data):
         self._heap_list.append(None)
         self._size += 1
@@ -29,7 +30,6 @@ class MinHeap:
             self._heap_list[child_index] = self._heap_list[child_index // 2]
             child_index = child_index // 2
         self._heap_list[child_index] = data
-
 
 
     def _percolate_down(self, hole):
